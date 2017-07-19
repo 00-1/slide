@@ -2,7 +2,7 @@
 const navigate = (route) => window.location.hash = route
 
 //photo album (could come from an api that lists a folder's contents)
-const photos = ['photo1.png','photo2.png', 'photo3.png']
+const photos = ['photo1','photo2', 'photo3']
 
 // return the next photo after navigation in a direction
 const nextPhoto = (photos, photo, skip) => 
@@ -16,7 +16,7 @@ const nextPhoto = (photos, photo, skip) =>
 // display a photo
 const display = (photos, photo) => {
     if (photo===nextPhoto(photos, photo, 0)) {
-        document.getElementById("slide").src=`./${photo}` // update the dom with the photo's path
+        document.getElementById("slide").src=`./${photo}.png` // update the dom with the photo's path
     } else {
         navigate(nextPhoto(photos, photo, 0)) // navigate to an extant photo
     }
