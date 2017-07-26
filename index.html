@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>slide</title>
-  </head>
-  <body>	
-		<script src="slide.js"></script>			
-		<button onclick="navigate(nextPhoto(photos, location.hash.substring(1), -1))">Previous</button>
-		<button onclick="navigate(nextPhoto(photos, location.hash.substring(1), 1))">Next</button>	
-		<br />
-		<img id="slide" src="" />    
-  </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>slide</title>
+		<link rel="stylesheet" href="slide.css">
+	</head>
+	<body>
+		<script src="slide.js"></script>
+		<button onclick="route(skip(album, album.filter(p=>p.name===location.hash.substring(1))[0], -1).name)">Previous</button>
+		<button onclick="route(skip(album, album.filter(p=>p.name===location.hash.substring(1))[0], 1).name)">Next</button>
+
+		<div class="blend"></div>
+		<img id="show" /> <img id="next" />
+	</body>
 </html>
-
-
-
