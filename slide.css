@@ -9,13 +9,12 @@ body {
     -ms-user-select: none; 
     user-select: none; 
 }
-img {
+div.image {
     mix-blend-mode: difference;   
-    opacity:0;    
-    transition : opacity 0.2s linear;
     background-color:#fff;
+    transition : opacity 0.5s linear;
 }
-.blend, img {
+.blend, div.image {
     position:absolute;
     top:4em;
     left:2em;
@@ -25,10 +24,12 @@ img {
 .blend {
     background: #151515;
 }
-img#show {
+div.image { opacity:0 }
+div#show {
     opacity:1;
     z-index:1;
     cursor:pointer;
+    
 }   
 button {
     padding-top:0;

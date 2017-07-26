@@ -1,39 +1,41 @@
 // probably use a proper router...
 const route = (route) => location.hash = route
 
-// return the next photo after navigation in a direction
-const skip = (photos, photo, skip) => (index = photos.indexOf(photo)) > -1 // photo exists...
-    && index + skip < photos.length // and navigating won't fall off the end...
-    ? index + skip > -1 // navigating won't fall off the start...
-        ? photos[index + skip] // return the next photo
-        : photos[photos.length - 1] // return the last photo
-    : photos[0] // return the first photo
 
-// display a photo
-const display = (photo) => {
-    // swap the img ids and 
-    const next = document.getElementById('next')
-    document.getElementById('show').id = 'next'
-    next.replaceWith(Object.assign(photo.image, {id: 'show'}))       
-}
+// NOTE skip should just take a string and use filter instead of indexOf..
+// return the next image after navigation in a direction
+const skip = (images, image, skip) => (index = images.indexOf(image)) > -1 // image exists...
+    && index + skip < images.length // and navigating won't fall off the end...
+    ? index + skip > -1 // navigating won't fall off the start...
+        ? images[index + skip] // return the next image
+        : images[images.length - 1] // return the last image
+    : images[0] // return the first image
+
 // given and array of sources returns an array of preloaded images
-const preload = (photos) => photos.map(photo => ( { name: photo, image: 
+const preload = (images) => images.map(image => ({ name: image, element:
     Object.assign(new Image(), {
-        src: `./${photo}.jpg`,
-        alt:  photo,
-        title: photo,
-        onload: () => console.log("load"),
-        onerror: () => console.log("error"),
-        onclick: () => route(skip(album, album.filter(p=>p.name===location.hash.substring(1))[0], 1).name)
+        src: `./${image}.jpg`,
+        alt: image,
+        title: image,
+        // onload: () => console.log("load"),
+        // onerror: () => console.log("error"),
+        onclick: () => route(skip(album, album.filter(p => p.name === location.hash.substring(1))[0], 1).name)
     })
 }))
 
-// photo album (could come from an api that lists a folder's contents)
+// image album (could come from an api that lists a folder's contents)
 const album = preload(['orange', 'pear', 'pigeon'])
 
+// display an image
+const display = (image, next, show) => {
+    next.replaceChild(image, next.childNodes[0])
+    show.id = next.id
+    next.id = 'show'
+}
+
 // listen for hash change and page load
-onhashchange = onload = () => 
-    (hash = location.hash.substring(1)) // check photo in hash exists...
-    === (photo = skip(album, album.filter(photo=>photo.name===hash)[0], 0)).name // ...by comparing with skip(,,0)
-        ? display(photo)
-        : route(photo.name) // if not, navigate to an extant photo
+onhashchange = onload = () =>
+    (hash = location.hash.substring(1)) // check image in hash exists...
+        === (image = skip(album, album.filter(image => image.name === hash)[0], 0)).name // ...by comparing with skip(,,0)
+        ? display(image.element, document.getElementById('next'), document.getElementById('show')) // if it does, display it
+        : route(image.name) // if not, navigate to an extant image
